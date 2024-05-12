@@ -1,6 +1,6 @@
 -- Get the name of a) this addon loaded seperately, or b) the addon that loaded this as an embedded library
 local loadedAddonName = ... 
-local MAJOR, MINOR = "LibClassicSwingTimerAPI", 17
+local MAJOR, MINOR = "LibClassicSwingTimerAPI", 20
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then
 	return
@@ -15,7 +15,8 @@ local isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 local isClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 local isBCC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC and LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_BURNING_CRUSADE
 local isWrath = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC and LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_WRATH_OF_THE_LICH_KING
-local isClassicOrBCCOrWrath = isClassic or isBCC or isWrath
+local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC and LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_CATACLYSM
+local isClassicOrBCCOrWrathOrCata = isClassic or isBCC or isWrath or isCata
 
 local reset_swing_spells = nil
 local reset_swing_on_channel_stop_spells = nil
@@ -168,7 +169,7 @@ function Unit:SwingEnd(hand)
 		if isRetail and hand == "mainhand" then		
 			self:SwingStart(hand, now, true)
 			self.callbacks:Fire("UNIT_SWING_TIMER_CLIPPED", self.id, hand)
-		elseif isClassicOrBCCOrWrath then
+		elseif isClassicOrBCCOrWrathOrCata then
 			self:SwingStart(hand, now, true)
 			self.callbacks:Fire("UNIT_SWING_TIMER_CLIPPED", self.id, hand)
 		end
@@ -543,7 +544,7 @@ function lib:UNIT_SPELLCAST_SUCCEEDED(_, unitType, _, spell)
 			if enabled == 1 then -- Reset ranged swing when FD CD start
 				unit:SwingStart("mainhand", start, true)
 				unit:SwingStart("offhand", start, true)
-				if isClassicOrBCCOrWrath then
+				if isClassicOrBCCOrWrathOrCata then
 					unit:SwingStart("ranged", start, true)
 				end
 				if unit.feignDeathTimer then
@@ -616,7 +617,7 @@ function lib:PLAYER_EQUIPMENT_CHANGED(_, equipmentSlot)
 		local now = GetTime()
 		self.player:SwingStart("mainhand", now, true)
 		self.player:SwingStart("offhand", now, true)
-		if isClassicOrBCCOrWrath then
+		if isClassicOrBCCOrWrathOrCata then
 			self.player:SwingStart("ranged", now, true)
 		end
 	end
@@ -938,6 +939,8 @@ elseif isWrath then
 		[5176] = true, [5177] = true, [5178] = true, [5179] = true, [5180] = true, [6780] = true, [8905] = true, [9912] = true, [26984] = true,
 			[26985] = true, [48459] = true, [48461] = true, -- Wrath
 		[53563] = true, -- Beacon of Light
+		[64382] = true, -- Shattering Throw
+		[57755] = true, -- Heroic Throw
 	}
 
 	reset_swing_on_channel_stop_spells = {}
@@ -1079,6 +1082,104 @@ elseif isWrath then
 		[42245] = true, -- Volley (rank 3)
 		[42244] = true, -- Volley (rank 2)
 		[42243] = true,  -- Volley (rank 1)
+	}
+elseif isCata then
+	reset_swing_spells = {
+		-- need to verify following for Cataclysm
+		[16589] = true, -- Noggenfogger Elixir
+		[2645] = true, -- Ghost Wolf
+		[2764] = true, -- Throw
+		[3018] = true, -- Shoots,
+		[5019] = true, -- Shoot Wand
+		[75] = true, -- Auto Shot
+		[5185] = true, -- Hibernate
+		[2782] = true, -- Remove Corruption
+		[450759] = true, -- Revitalize
+		[50769] = true, -- Revive
+		[2908] = true, -- Soothe
+		[53563] = true, -- Beacon of Light
+		[64382] = true, -- Shattering Throw
+		[57755] = true, -- Heroic Throw
+
+		-- cata verified abilities below
+		[5384] = true, -- Feign Death
+		[339] = true, -- Entangling Roots
+		[770] = true, -- Faerie Fire
+		[33763] = true, -- Lifebloom
+		[1126] = true, -- Mark of the Wild
+		[8921] = true, -- Moonfire
+		[50464] = true, -- Nourish
+		[20484] = true, -- Regrowth
+		[774] = true, -- Rejuvenation
+		[467] = true, -- Thorns
+		[5176] = true, -- Wrath
+	}
+
+	reset_swing_on_channel_stop_spells = {}
+
+	prevent_swing_speed_update = {
+		[768] = true, -- Cat Form
+		[5487] = true, -- Bear Form
+	}
+
+	-- all next melee spells have been converted to instants in Cataclysm
+	next_melee_spells = {}
+
+	-- need to verify these for Cataclysm
+	noreset_swing_spells = {
+		[23063] = true, -- Dense Dynamite
+		[4054] = true, -- Rough Dynamite
+		[4064] = true, -- Rough Copper Bomb
+		[4061] = true, -- Coarse Dynamite
+		[8331] = true, -- Ez-Thro Dynamite
+		[4065] = true, -- Large Copper Bomb
+		[4066] = true, -- Small Bronze Bomb
+		[4062] = true, -- Heavy Dynamite
+		[4067] = true, -- Big Bronze Bomb
+		[4068] = true, -- Iron Grenade
+		[23000] = true, -- Ez-Thro Dynamite II
+		[12421] = true, -- Mithril Frag Bomb
+		[4069] = true, -- Big Iron Bomb
+		[12562] = true, -- The Big One
+		[12543] = true, -- Hi-Explosive Bomb
+		[19769] = true, -- Thorium Grenade
+		[19784] = true, -- Dark Iron Bomb
+		[30216] = true, -- Fel Iron Bomb
+		[19821] = true, -- Arcane Bomb
+		[39965] = true, -- Frost Grenade
+		[30461] = true, -- The Bigger One
+		[30217] = true, -- Adamantite Grenade
+		[35476] = true, -- Drums of Battle
+		[35475] = true, -- Drums of War
+		[35477] = true, -- Drums of Speed
+		[35478] = true, -- Drums of Restoration
+		[19434] = true, -- Aimed Shot (rank 1)
+		[12051] = true, -- Evocation
+		--35474 Drums of Panic DO reset the swing timer, do not add
+
+		-- Below have been verified in Cataclysm
+		[56641] = true, -- Steady Shot
+		[1464] = true, -- Slam
+		[16914] = true, -- Hurricane
+	}
+
+	-- need to verify for cataclysm
+	prevent_reset_swing_auras = {
+		[53817] = true, -- Maelstrom Weapon
+	}
+
+	pause_swing_spells = {
+		[1464] = true, -- Slam
+	}
+
+	ranged_swing = {
+		[75] = true, -- Auto Shot
+		[3018] = true, -- Shoot
+		[2764] = true, -- Throw
+		[5019] = true, -- Shoot Wand
+	}
+
+	reset_ranged_swing = {
 	}
 elseif isRetail then
 	reset_swing_spells = {
