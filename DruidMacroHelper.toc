@@ -2,8 +2,9 @@
 ## Interface-Classic: 11403
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30400
+## Interface-Cata: 40400
 ## Title: DruidMacroHelper
-## Version: 1.2.3
+## Version: 1.3.0
 ## Author: Mylaerla-Everlook
 ## Notes: Helper-Functions for creating efficient druid macros
 ## X-Curse-Project-ID: 515355
