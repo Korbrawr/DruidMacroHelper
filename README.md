@@ -24,7 +24,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 
 ## Examples:
 
-### Cat powershifting
+## Cat powershifting
 #### Will shift out of cat form and back in
 ```lua
 #showtooltip
@@ -33,7 +33,21 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /dmh end
 ```
 
-### Healthstone
+## Albino Snake Usage
+ Use Albino Snake to clip swing timer if advantageous when shifting into cat form
+```lua
+#showtooltip
+/dmh start
+/cast !Cat Form
+/dmh snake
+/dmh end
+```
+By default, this will dismiss the snake 0.1s after leaving cat form.
+You can instead dismiss the snake 2 seconds after summoning by adding the `timed` parameter
+
+Example: `/dmh snake timed`
+
+## Healthstone
 #### Will shift out of form, use a Healthstone and shift back into the form you started in
 ```lua
 #showtooltip
@@ -43,7 +57,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /click dmhEnd
 ```
 
-### Super Healing Potion
+## Super Healing Potion
 #### Will shift out of form, use a Super Healing Potion and shift back into the form you started in
 ```lua
 #showtooltip
@@ -53,7 +67,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /click dmhEnd
 ```
 
-### Super Mana Potion
+## Super Mana Potion
 #### Will shift out of form, use a Super Mana Potion and shift back into cat form (ignores mana condition, may require a second press/click)
 ```lua
 #showtooltip
@@ -63,7 +77,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /dmh end
 ```
 
-### Goblin Sapper
+## Goblin Sapper
 #### Will shift out of form, use a Super Sapper Charge / Goblin Sapper Charge and shift back into the form you started in
 ```lua
 #showtooltip
@@ -73,7 +87,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /click dmhEnd
 ```
 
-### Feral Charge
+## Feral Charge
 #### Go to Bear and Feral Charge from any form. Checks if we are in range and Feral Charge is off CD.
 ```lua
 #showtooltip
@@ -83,7 +97,7 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /dmh end
 ```
 
-### Innervate
+## Innervate
 #### Drop shape and cast innervate if target is in rage and innervate is off CD.
 Will notify the target via whisper if out of range, innervate is on CD or if cast successfully.
 ```lua
