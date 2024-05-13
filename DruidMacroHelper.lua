@@ -182,10 +182,8 @@ function DruidMacroHelper:OnSlashSnake(parameters)
       self:LogDebug("LibClassicSwingTimerAPI not installed, snaking naively");
       self:SnakeHelper(parameters);
     else
-      local catSwingTimer = 1 / (1 + GetMeleeHaste()/100);
-      --local time_till_next_auto = select(2, LibClassicSwingTimerAPI:SwingTimerInfo("mainhand")) - GetTime();
-      --if time_till_next_auto > (1 / (1 + GetMeleeHaste() / 100)) then
-      if GetTime() + catSwingTimer then
+      local time_till_next_auto = select(2, LibClassicSwingTimerAPI:SwingTimerInfo("mainhand")) - GetTime();
+      if time_till_next_auto > (1 / (1 + GetMeleeHaste() / 100)) then
         self:LogDebug("Summoning snake to clip next swing down from", time_till_next_auto);
         self:SnakeHelper(parameters);
       else
