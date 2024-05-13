@@ -148,7 +148,7 @@ function DruidMacroHelper:OnSlashMaul(parameters)
 end
 
 function DruidMacroHelper:UPDATE_SHAPESHIFT_FORM(event)
-  C_Timer.After(.5, function() 
+  C_Timer.After(0.1, function() 
     if self.AutoUnsnake and GetShapeshiftForm() ~= 3 then
       self:LogDebug("Auto unsnaked")
       DismissCompanion("CRITTER")
@@ -162,7 +162,9 @@ function DruidMacroHelper:SnakeHelper(parameters)
     if select(2, GetCompanionInfo("CRITTER", i)) == "Albino Snake" then
         CallCompanion("CRITTER", i)
 
-        if (#(parameters) > 0) then
+        if (#(parameters) < 1) then
+          self.AutoUnsnake = true
+        else
           local additional = tremove(parameters, 1);
           if additional == "timed" then
             C_Timer.After(2, function() DismissCompanion("CRITTER") end)
