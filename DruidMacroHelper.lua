@@ -158,8 +158,10 @@ function DruidMacroHelper:UPDATE_SHAPESHIFT_FORM(event)
 end
 
 function DruidMacroHelper:SnakeHelper(parameters)
+  SnakeFound = false
   for i=1,GetNumCompanions("CRITTER") do
     if select(1, GetCompanionInfo("CRITTER", i)) == 7561 then
+        SnakeFound = true
         CallCompanion("CRITTER", i)
 
         if (#(parameters) < 1) then
@@ -175,6 +177,9 @@ function DruidMacroHelper:SnakeHelper(parameters)
 
         return
     end
+  end
+  if SnakeFound == false then
+    print("Go buy Snake on this character")
   end
 end
 
