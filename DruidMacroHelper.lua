@@ -153,9 +153,9 @@ function DruidMacroHelper:SnakeHelper(parameters)
         C_Timer.After(2, function() DismissCompanion("CRITTER") end)
         return
     end
-    self:LogOutput("This character has not learned the Albino Snake pet.")
-    self:LogOutput("Please purchase the Albino Snake from Breanni in Dalaran. You must learn this pet on this character.")
   end
+  self:LogOutput("This character has not learned the Albino Snake pet.")
+  self:LogOutput("Please purchase the Albino Snake from Breanni in Dalaran. You must learn this pet on this character.")
 end
 
 function DruidMacroHelper:OnSlashSnake(parameters)
