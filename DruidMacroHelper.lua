@@ -175,6 +175,8 @@ function DruidMacroHelper:SnakeHelper(parameters)
 
         return
     end
+    self:LogOutput("This character has not learned the Albino Snake pet.")
+    self:LogOutput("Please purchase the Albino Snake from Breanni in Dalaran. You must learn this pet on this character.")
   end
 end
 
