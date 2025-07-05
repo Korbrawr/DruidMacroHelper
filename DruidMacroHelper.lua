@@ -40,7 +40,6 @@ function DruidMacroHelper:OnEnable()
   self:CreateButton('dmhHs', '/dmh cd hs\n/dmh start', 'Disable autoUnshift if not ready to use a healthstone');
   self:CreateButton('dmhSap', '/dmh cd sapper\n/dmh start', 'Disable autoUnshift if not ready to use a sapper');
   self:CreateButton('dmhSuperSap', '/dmh cd supersapper\n/dmh start', 'Disable autoUnshift if not ready to use a super sapper');
-  self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
   self.ChatThrottle = nil
   self.SpellQueueWindow = 400
   self.AutoUnsnake = false
@@ -147,35 +146,16 @@ function DruidMacroHelper:OnSlashMaul(parameters)
   end
 end
 
-function DruidMacroHelper:UPDATE_SHAPESHIFT_FORM(event)
-  C_Timer.After(0.1, function() 
-    if self.AutoUnsnake and GetShapeshiftForm() ~= 3 then
-      self:LogDebug("Auto unsnaked")
-      DismissCompanion("CRITTER")
-      self.AutoUnsnake = false
-    end
-  end)
-end
-
 function DruidMacroHelper:SnakeHelper(parameters)
   for i=1,GetNumCompanions("CRITTER") do
     if select(1, GetCompanionInfo("CRITTER", i)) == 7561 then
         CallCompanion("CRITTER", i)
-
-        if (#(parameters) < 1) then
-          self.AutoUnsnake = true
-        else
-          local additional = tremove(parameters, 1);
-          if additional == "timed" then
-            C_Timer.After(2, function() DismissCompanion("CRITTER") end)
-          elseif additional == "auto" then
-            self.AutoUnsnake = true
-          end
-        end
-
+        C_Timer.After(2, function() DismissCompanion("CRITTER") end)
         return
     end
   end
+  self:LogOutput("This character has not learned the Albino Snake pet.")
+  self:LogOutput("Please purchase the Albino Snake from Breanni in Dalaran. You must learn this pet on this character.")
 end
 
 function DruidMacroHelper:OnSlashSnake(parameters)
