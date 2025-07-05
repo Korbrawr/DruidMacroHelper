@@ -1,9 +1,5 @@
-## Interface: 100200
-## Interface-Classic: 11500
-## Interface-BCC: 20504
-## Interface-Wrath: 30403
-## Interface-Cata: 40400
-## Version: 2.0.5
+## Interface: 11502, 20504, 30403, 40400, 50500, 100206
+## Version: 2.2.0
 ## Title: Swing Timer API
 ## Notes: Swing Timer Library
 ## Author: Ralgathor
