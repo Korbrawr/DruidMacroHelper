@@ -34,7 +34,8 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 ```
 
 ### Albino Snake Usage
- Use Albino Snake to clip swing timer if advantageous when shifting into cat form
+ Use Albino Snake to clip swing timer if advantageous when shifting into cat form.
+ Dismisses Albino Snake after 2 seconds.
 ```lua
 #showtooltip
 /dmh start
@@ -42,29 +43,27 @@ https://www.curseforge.com/wow/addons/druidmacrohelper
 /dmh snake
 /dmh end
 ```
-By default, this will dismiss the snake 0.1s after leaving cat form.
-You can instead dismiss the snake 2 seconds after summoning by adding the `timed` parameter
-
-Example: `/dmh snake timed`
 
 ### Healthstone
-#### Will shift out of form, use a Healthstone and shift back into the form you started in
+#### Will shift out of form, use a Healthstone and shift into bear form
 ```lua
 #showtooltip
-/click dmhStart
+/dmh start
 /dmh cd hs
 /use Master Healthstone
-/click dmhEnd
+/cast !Dire Bear Form
+/dmh end
 ```
 
 ### Super Healing Potion
-#### Will shift out of form, use a Super Healing Potion and shift back into the form you started in
+#### Will shift out of form, use a Super Healing Potion and shift into bear form
 ```lua
 #showtooltip
-/click dmhStart
+/dmh start
 /dmh cd pot
 /use Super Healing Potion
-/click dmhEnd
+/cast !Dire Bear Form
+/dmh end
 ```
 
 ### Super Mana Potion
@@ -78,17 +77,29 @@ Example: `/dmh snake timed`
 ```
 
 ### Goblin Sapper
-#### Will shift out of form, use a Super Sapper Charge / Goblin Sapper Charge and shift back into the form you started in
+#### Will shift out of form, use a Goblin Sapper Charge and shift into bear form
 ```lua
 #showtooltip
-/click [mod:shift]dmhSuperSap;dmhSap
-/click dmhStart
-/use [mod:shift]Super Sapper Charge;Goblin Sapper Charge
-/click dmhEnd
+/dmh cd sapper
+/dmh start
+/use Goblin Sapper Charge
+/cast !Dire Bear Form
+/dmh end
+```
+
+### Super Sapper Charge
+#### Will shift out of form, use a Super Sapper Charge and shift into bear form
+```lua
+#showtooltip
+/dmh cd supersapper
+/dmh start
+/use Super Sapper Charge
+/cast !Dire Bear Form
+/dmh end
 ```
 
 ### Feral Charge
-#### Go to Bear and Feral Charge from any form. Checks if we are in range and Feral Charge is off CD.
+#### Go to Bear and Feral Charge from any form. Checks if we are in range and Feral Charge is off CD. May require a second press/click.
 ```lua
 #showtooltip
 /dmh charge

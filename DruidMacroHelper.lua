@@ -34,7 +34,6 @@ function DruidMacroHelper:OnEnable()
   self:RegisterSlashAction('dismiss', 'OnSlashDismiss', 'Dismiss Albino Snake')
   self.ChatThrottle = nil
   self.SpellQueueWindow = 400
-  self.AutoUnsnake = false
 end
 
 function DruidMacroHelper:LogOutput(...)
