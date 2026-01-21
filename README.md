@@ -107,23 +107,8 @@ Will notify the target via whisper if out of range, innervate is on CD or if cas
 /dmh end
 ```
 
-## Available commands
+## Slash commands
 
-There are two options on how to use the addon in macros:
-
-### Click variants
-The click variants allow to use modifiers (like shown in the sapper example)
-* `/click dmhStart` Change actionbar based on the current form. (includes /dmh start)
-* `/click dmhBar` Change actionbar based on the current form. (without /dmh start)
-* `/click dmhReset` Change actionbar back to 1.
-* `/click dmhEnd` Change back to form based on the current bar. (includes /dmh end)
-* `/click dmhPot` Disable autoUnshift if not ready to use a potion
-* `/click dmhHs` Disable autoUnshift if not ready to use a healthstone
-* `/click dmhSap` Disable autoUnshift if not ready to use a sapper
-* `/click dmhSuperSap` Disable autoUnshift if not ready to use a super sapper
-
-### Slash commands
-The slash commands allow for more flexibility in some cases (like custom itemIds or energy-based shifting)
 * `/dmh help [<command>]`
 
     List a description of all available slash- and button-commands in the chat window
