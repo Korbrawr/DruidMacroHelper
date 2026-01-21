@@ -32,14 +32,6 @@ function DruidMacroHelper:OnEnable()
   self:RegisterSlashAction('snake', 'OnSlashSnake', 'Use Albino Snake to clip swing timer if advantageous')
   self:RegisterSlashAction('snek', 'OnSlashSnake', 'Use Albino Snake to clip swing timer if advantageous, but faster')
   self:RegisterSlashAction('dismiss', 'OnSlashDismiss', 'Dismiss Albino Snake')
-  self:CreateButton('dmhStart', '/changeactionbar [noform]1;[form:1]2;[form:3]3;[form:4]4;[form:5]5;6;\n/dmh start', 'Change actionbar based on the current form. (includes /dmh start)');
-  self:CreateButton('dmhBar', '/changeactionbar [noform]1;[form:1]2;[form:3]3;[form:4]4;[form:5]5;6;', 'Change actionbar based on the current form. (without /dmh start)');
-  self:CreateButton('dmhReset', '/changeactionbar 1', 'Change actionbar back to 1.');
-  self:CreateButton('dmhEnd', '/use [bar:2]!'..L["FORM_DIRE_BEAR"]..';[bar:3]!'..L["FORM_CAT"]..';[bar:4]!'..L["FORM_TRAVEL"]..'\n/click dmhReset\n/dmh end', 'Change back to form based on the current bar. (includes /dmh end)');
-  self:CreateButton('dmhPot', '/dmh cd pot\n/dmh start', 'Disable autoUnshift if not ready to use a potion');
-  self:CreateButton('dmhHs', '/dmh cd hs\n/dmh start', 'Disable autoUnshift if not ready to use a healthstone');
-  self:CreateButton('dmhSap', '/dmh cd sapper\n/dmh start', 'Disable autoUnshift if not ready to use a sapper');
-  self:CreateButton('dmhSuperSap', '/dmh cd supersapper\n/dmh start', 'Disable autoUnshift if not ready to use a super sapper');
   self.ChatThrottle = nil
   self.SpellQueueWindow = 400
   self.AutoUnsnake = false
@@ -107,10 +99,6 @@ function DruidMacroHelper:OnSlashHelp(parameters)
     self:LogOutput("Available slash commands:");
     for action in pairs(self.slashActions) do
       self:LogOutput("|cffffff00/dmh "..action.."|r", self.slashActions[action].description);
-    end
-    self:LogOutput("Available buttons:");
-    for btnName in pairs(self.buttons) do
-      self:LogOutput("|cffffff00/click "..btnName.."|r", self.buttons[btnName]);
     end
   end
 end
@@ -361,19 +349,6 @@ function DruidMacroHelper:IsItemOnCooldown(itemNameOrId)
     itemId = self.itemShortcuts[itemNameOrId];
   end
   return (C_Container.GetItemCooldown(itemId) > 0);
-end
-
-function DruidMacroHelper:CreateButton(name, macrotext, description)
-  local b = _G[name] or CreateFrame('Button', name, nil, 'SecureActionButtonTemplate,SecureHandlerBaseTemplate');
-  b:SetAttribute('type', 'macro');
-  b:SetAttribute('macrotext', macrotext);
-  if not self.buttons then
-    self.buttons = {};
-  end
-  if not description then
-    description = "No description available";
-  end
-  self.buttons[name] = description;
 end
 
 function DruidMacroHelper:RegisterCondition(shortcut, itemId)
