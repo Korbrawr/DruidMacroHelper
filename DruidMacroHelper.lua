@@ -4,6 +4,11 @@ local DRUID_MACRO_HELPER_LOC_SHIFTABLE = { "ROOT" };
 local DRUID_MACRO_HELPER_LOC_STUN = { "STUN", "STUN_MECHANIC", "FEAR", "CHARM", "CONFUSE", "POSSESS" };
 local LibClassicSwingTimerAPI = LibStub("LibClassicSwingTimerAPI", true)
 
+local DMH_STUN_DEBUFFS = { -- Spells that stun the character but aren't flagged as loss of control ingame
+  [38509] = true, -- https://tbc.wowhead.com/spell=38509/shock-blast
+  [35326] = true, -- https://tbc.wowhead.com/spell=35326/hammer-punch
+}
+
 DruidMacroHelper = LibStub("AceAddon-3.0"):NewAddon("DruidMacroHelper", "AceEvent-3.0");
 
 function DruidMacroHelper:OnEnable()
@@ -293,25 +298,23 @@ function DruidMacroHelper:OnSlashDebug(parameters)
 end
 
 function DruidMacroHelper:IsStunned()
-  local i = C_LossOfControl.GetActiveLossOfControlDataCount();
-  while (i > 0) do
-    local locData = C_LossOfControl.GetActiveLossOfControlData(i);
-    if (tContains(DRUID_MACRO_HELPER_LOC_STUN, locData.locType)) then
-      return true;
+  local count = C_LossOfControl.GetActiveLossOfControlDataCount()
+  for i = count, 1, -1 do
+    local locData = C_LossOfControl.GetActiveLossOfControlData(i)
+    if locData and tContains(DRUID_MACRO_HELPER_LOC_STUN, locData.locType) then
+      return true
     end
-    i = i - 1;
   end
 
-  i = 40
-  while (i > 0) do
-    local name,_,_,_,_,_,_,_,_,spellId = UnitDebuff("player",i);
-    if spellId == 38509 then -- https://tbc.wowhead.com/spell=38509/shock-blast
-      return true;
-    end
-    i = i - 1;
-  end
+  local i = 1
+  while true do
+    local name,_,_,_,_,_,_,_,_,spellId = UnitDebuff("player",i)
 
-  return false;
+    if not name then return false end -- we looped through all of the debuffs
+
+    if DMH_STUN_DEBUFFS[spellId] then return true end
+    i = i + 1
+  end
 end
 
 function DruidMacroHelper:IsShiftableCC()
