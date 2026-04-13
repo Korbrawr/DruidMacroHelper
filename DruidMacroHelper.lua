@@ -342,12 +342,16 @@ function DruidMacroHelper:IsShiftableCC()
 end
 
 function DruidMacroHelper:IsItemOnCooldown(itemNameOrId)
-  local itemId = itemNameOrId;
-  itemNameOrId = strlower(itemNameOrId);
-  if self.itemShortcuts and self.itemShortcuts[itemNameOrId] then
-    itemId = self.itemShortcuts[itemNameOrId];
+  local key = strlower(itemNameOrId)
+  local itemId = (self.itemShortcuts and self.itemShortcuts[key]) or itemNameOrId
+
+  itemId = tonumber(itemId)
+  if not itemId then
+    self:LogDebug("Invalid argument passed to IsItemOnCooldown: ", itemNameOrId)
+    return false
   end
-  return (C_Container.GetItemCooldown(itemId) > 0);
+
+  return (C_Container.GetItemCooldown(itemId) > 0)
 end
 
 function DruidMacroHelper:RegisterCondition(shortcut, itemId)
