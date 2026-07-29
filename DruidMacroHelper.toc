@@ -1,4 +1,4 @@
-## Interface: 120000, 11508, 20506, 50503
+## Interface: 120000, 11509, 20506, 50503
 ## Title: DruidMacroHelper
 ## Version: @project-version@
 ## Author: Mylaerla-Everlook
